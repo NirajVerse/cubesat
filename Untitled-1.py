@@ -74,7 +74,6 @@ copy_images_only(neg_test, "test")
 dataset_dir = "dataset_split/images"  # adjust if needed
 
 splits = ["train", "val", "test"]
-d
 for split in splits:
     split_path = os.path.join(dataset_dir, split)
     if os.path.exists(split_path):
