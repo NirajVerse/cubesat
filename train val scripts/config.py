@@ -20,8 +20,8 @@ MODELS = [
     'logistic',
     'mobilenetv2',
     'densenet121',
-    'shufflenetv2',
-    'inceptionv3'
+    'shufflenetv2'
+    #'inceptionv3'
 ]
 
 
