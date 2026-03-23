@@ -42,12 +42,12 @@ def get_model(model_name, pretrained=True):
         model = models.shufflenet_v2_x1_0(pretrained=pretrained)
         model.fc = nn.Linear(model.fc.in_features, 2)
     
-    elif model_name == 'inceptionv3':
-        model = models.inception_v3(pretrained=pretrained)
-        model.fc = nn.Linear(model.fc.in_features, 2)
-        # InceptionV3 has an auxiliary classifier that needs to be modified as well
-        if model.AuxLogits is not None:
-            model.AuxLogits.fc = nn.Linear(model.AuxLogits.fc.in_features, 2)
+    # elif model_name == 'inceptionv3':
+    #     model = models.inception_v3(pretrained=pretrained)
+    #     model.fc = nn.Linear(model.fc.in_features, 2)
+    #     # InceptionV3 has an auxiliary classifier that needs to be modified as well
+    #     if model.AuxLogits is not None:
+    #         model.AuxLogits.fc = nn.Linear(model.AuxLogits.fc.in_features, 2)
     
     else:
         raise ValueError(f"Unknown model name: {model_name}")
