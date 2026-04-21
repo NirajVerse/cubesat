@@ -1,0 +1,6 @@
+YOLODataset/
+data/
+*.zip
+train val scripts/__pycache__/
+dataset_split/
+train val scripts/checkpoints/

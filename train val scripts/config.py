@@ -1,5 +1,5 @@
 
-DATASET_PATH = '/home/niraj/hpcc/cubesat/OHID-FF/data/ohid_ff'
+DATASET_PATH = '/work/users/ng739/cubesat/model/cubesat/data/ohid_ff'
 IMAGE_SIZE = 512  
 RESIZE_TO = 224   
 TRAIN_SIZE = 597  
