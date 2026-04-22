@@ -19,7 +19,7 @@ def check_dataset_structure():
     """
     Check if dataset has proper train/val/test split
     """
-    print("🔍 Checking dataset structure...")
+    print(" Checking dataset structure...")
 
     required_dirs = [
         os.path.join(DATASET_PATH, 'images/train'),
@@ -32,9 +32,9 @@ def check_dataset_structure():
     for dir_path in required_dirs:
         if os.path.isdir(dir_path):
             num_files = len(os.listdir(dir_path))
-            print(f"   ✅ {dir_path}: {num_files} files")
+            print(f"    {dir_path}: {num_files} files")
         else:
-            print(f"   ❌ {dir_path}: NOT FOUND")
+            print(f"    {dir_path}: NOT FOUND")
             all_exist = False
 
     return all_exist
@@ -44,7 +44,7 @@ def create_dataset_yaml():
     """
     Create dataset.yaml for YOLO training
     """
-    print("\n📝 Creating dataset.yaml...")
+    print("\n Creating dataset.yaml...")
 
     dataset_yaml = f"""path: {os.path.abspath(DATASET_PATH)}
 train: {os.path.abspath(os.path.join(DATASET_PATH, 'images/train'))}
@@ -59,7 +59,7 @@ names: {CLASSES}
     with open(yaml_path, 'w') as f:
         f.write(dataset_yaml)
 
-    print(f"   ✅ Created: {yaml_path}")
+    print(f"    Created: {yaml_path}")
     return yaml_path
 
 
@@ -71,12 +71,12 @@ def train_yolo(dataset_yaml_path=None):
         dataset_yaml_path: Path to dataset.yaml file
     """
     print("="*60)
-    print("🚀 YOLO TRAINING PIPELINE")
+    print(" YOLO TRAINING PIPELINE")
     print("="*60)
 
     # Check dataset
     if not check_dataset_structure():
-        print("\n⚠️  Dataset structure incomplete!")
+        print("\n  Dataset structure incomplete!")
         print("   Please split your dataset into train/val folders first.")
         print("   See Split_dataset.ipynb for help.")
         return
@@ -89,14 +89,14 @@ def train_yolo(dataset_yaml_path=None):
     os.makedirs(YOLO_MODELS_DIR, exist_ok=True)
 
     # Initialize YOLO model
-    print(f"\n📥 Loading {MODEL_NAME} model...")
+    print(f"\n Loading {MODEL_NAME} model...")
     model = YOLO(f'{MODEL_NAME}.pt')
 
     # Create run name with timestamp
     run_name = f"smoke_detection_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
     # Training parameters
-    print(f"\n⚙️  Training Configuration:")
+    print(f"\n  Training Configuration:")
     print(f"   Model: {MODEL_NAME}")
     print(f"   Image Size: {IMGSZ}")
     print(f"   Batch Size: {BATCH_SIZE}")
@@ -105,7 +105,7 @@ def train_yolo(dataset_yaml_path=None):
     print(f"   Confidence Threshold: {INFERENCE_CONF}")
 
     # Start training
-    print(f"\n🔥 Starting training...")
+    print(f"\n Starting training...")
     print(f"   Run name: {run_name}")
 
     results = model.train(
@@ -125,16 +125,16 @@ def train_yolo(dataset_yaml_path=None):
     )
 
     # Save best model with custom name
-    print(f"\n💾 Saving best model...")
+    print(f"\n Saving best model...")
     best_model_path = os.path.join(YOLO_MODELS_DIR, 'best.pt')
     run_best_path = os.path.join(YOLO_MODELS_DIR, run_name, 'weights', 'best.pt')
 
     if os.path.exists(run_best_path):
         os.system(f'cp {run_best_path} {best_model_path}')
-        print(f"   ✅ Saved: {best_model_path}")
+        print(f"    Saved: {best_model_path}")
 
     print("\n" + "="*60)
-    print("✅ Training completed!")
+    print(" Training completed!")
     print("="*60)
     print(f"\nTo run inference, use:")
     print(f"   python inference.py --model {best_model_path} --image <path_to_image>")

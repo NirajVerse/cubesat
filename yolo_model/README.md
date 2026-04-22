@@ -2,22 +2,22 @@
 
 This folder contains the complete YOLO object detection pipeline for smoke/fire detection from satellite imagery.
 
-## 📁 Folder Structure
+##  Folder Structure
 
 ```
 yolo_model/
-├── config/
-│   └── yolo_config.py         # Configuration settings
-├── scripts/
-│   ├── inference.py            # Inference on images
-│   ├── train.py                # Train YOLO model
-│   └── prepare_dataset.py      # Prepare dataset splits
-├── models/                     # Trained model weights (generated after training)
-├── inference_results/          # Prediction outputs (generated after inference)
-└── requirements.txt            # Python dependencies
+ config/
+    yolo_config.py         # Configuration settings
+ scripts/
+    inference.py            # Inference on images
+    train.py                # Train YOLO model
+    prepare_dataset.py      # Prepare dataset splits
+ models/                     # Trained model weights (generated after training)
+ inference_results/          # Prediction outputs (generated after inference)
+ requirements.txt            # Python dependencies
 ```
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Install Dependencies
 
@@ -60,7 +60,7 @@ Training will:
 - Save best model to `models/best.pt`
 - Generate training plots and metrics
 
-⏱️ **Training time**: ~30-60 minutes on GPU (varies by hardware)
+ **Training time**: ~30-60 minutes on GPU (varies by hardware)
 
 ### 4. Run Inference
 
@@ -89,7 +89,7 @@ python scripts/inference.py \
   --save
 ```
 
-## 📊 Output
+##  Output
 
 ### Inference Results
 
@@ -100,13 +100,13 @@ python scripts/inference.py \
 ### Console Output
 
 ```
-📷 image_name.jpg
+ image_name.jpg
    Smoke regions detected: 2
    [1] Confidence: 85.3%
    [2] Confidence: 72.1%
 ```
 
-## 🎯 Configuration
+##  Configuration
 
 Edit `config/yolo_config.py` to customize:
 
@@ -117,7 +117,7 @@ INFERENCE_CONF = 0.5               # Confidence threshold
 DEVICE = 'cuda'                    # 'cuda' or 'cpu'
 ```
 
-## 📚 Model Sizes
+##  Model Sizes
 
 | Model | Size | Speed | Accuracy |
 |-------|------|-------|----------|
@@ -128,7 +128,7 @@ DEVICE = 'cuda'                    # 'cuda' or 'cpu'
 
 **Start with `yolov11n` (nano) - fastest training and inference**
 
-## 🔍 Understanding Results
+##  Understanding Results
 
 ### Bounding Box Format
 - **Green box**: Detected smoke region
@@ -142,7 +142,7 @@ DEVICE = 'cuda'                    # 'cuda' or 'cpu'
 
 Adjust `--conf` parameter to filter detections by confidence.
 
-## 🛠️ Troubleshooting
+##  Troubleshooting
 
 ### No detections?
 - Lower confidence threshold: `--conf 0.3`
@@ -159,13 +159,13 @@ Adjust `--conf` parameter to filter detections by confidence.
 - Verify all images have matching label files
 - Check dataset paths in `dataset.yaml`
 
-## 📝 Training Data Format
+##  Training Data Format
 
 Your dataset uses **YOLO format**:
 
 ```
-image1.jpg  → image1.txt
-image2.jpg  → image2.txt
+image1.jpg   image1.txt
+image2.jpg   image2.txt
 ```
 
 Label file (image1.txt):
@@ -180,21 +180,21 @@ Where:
 - `0.613` = width (normalized 0-1)
 - `0.374` = height (normalized 0-1)
 
-## 🎓 Next Steps
+##  Next Steps
 
-1. **Prepare dataset** → `prepare_dataset.py`
-2. **Train model** → `train.py` (30-60 mins)
-3. **Evaluate results** → Check training plots
-4. **Run inference** → `inference.py` on new images
-5. **Fine-tune** → Adjust confidence threshold based on results
+1. **Prepare dataset**  `prepare_dataset.py`
+2. **Train model**  `train.py` (30-60 mins)
+3. **Evaluate results**  Check training plots
+4. **Run inference**  `inference.py` on new images
+5. **Fine-tune**  Adjust confidence threshold based on results
 
-## 💡 Tips
+##  Tips
 
 - Start with small model (`yolov11n`) for faster experimentation
 - Use high confidence threshold (0.6+) for production
 - Visualize predictions before deployment
 - Keep training logs for debugging
 
-## 📞 Questions?
+##  Questions?
 
 Check the main README in the parent directory or see `train val scripts/README` for classification pipeline comparison.

@@ -33,15 +33,15 @@ class SmokeDetector:
 
         # Load model
         if model_path is None:
-            print("⚠️  No model path provided. Please provide a trained model.")
+            print("  No model path provided. Please provide a trained model.")
             print(f"   Expected model location: {YOLO_MODELS_DIR}")
             self.model = None
         else:
             try:
                 self.model = YOLO(model_path)
-                print(f"✅ Model loaded from: {model_path}")
+                print(f" Model loaded from: {model_path}")
             except Exception as e:
-                print(f"❌ Error loading model: {e}")
+                print(f" Error loading model: {e}")
                 self.model = None
 
     def predict_single_image(self, image_path, visualize=True):
@@ -57,11 +57,11 @@ class SmokeDetector:
             annotated_image: Image with bounding boxes (if visualize=True)
         """
         if self.model is None:
-            print("❌ Model not loaded. Cannot run inference.")
+            print(" Model not loaded. Cannot run inference.")
             return None, None
 
         if not os.path.exists(image_path):
-            print(f"❌ Image not found: {image_path}")
+            print(f" Image not found: {image_path}")
             return None, None
 
         # Run inference
@@ -94,11 +94,11 @@ class SmokeDetector:
             results_dict: Dictionary with results for each image
         """
         if self.model is None:
-            print("❌ Model not loaded. Cannot run inference.")
+            print(" Model not loaded. Cannot run inference.")
             return {}
 
         if not os.path.isdir(image_dir):
-            print(f"❌ Directory not found: {image_dir}")
+            print(f" Directory not found: {image_dir}")
             return {}
 
         # Get all image files
@@ -107,10 +107,10 @@ class SmokeDetector:
                       if f.lower().endswith(image_extensions)]
 
         if not image_files:
-            print(f"⚠️  No images found in {image_dir}")
+            print(f"  No images found in {image_dir}")
             return {}
 
-        print(f"🔍 Found {len(image_files)} images. Running inference...")
+        print(f" Found {len(image_files)} images. Running inference...")
 
         results_dict = {}
 
@@ -135,7 +135,7 @@ class SmokeDetector:
                         f'pred_{img_file}'
                     )
                     cv2.imwrite(output_path, annotated_img)
-                    print(f"      💾 Saved: {output_path}")
+                    print(f"       Saved: {output_path}")
 
         return results_dict
 
@@ -177,7 +177,7 @@ class SmokeDetector:
         """
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         cv2.imwrite(output_path, annotated_image)
-        print(f"✅ Saved: {output_path}")
+        print(f" Saved: {output_path}")
 
     def print_detections(self, results_dict):
         """
@@ -187,7 +187,7 @@ class SmokeDetector:
             results_dict: Dictionary with results from predict_batch
         """
         print("\n" + "="*60)
-        print("📊 DETECTION SUMMARY")
+        print(" DETECTION SUMMARY")
         print("="*60)
 
         total_detections = 0
@@ -200,7 +200,7 @@ class SmokeDetector:
 
             if num_detections > 0:
                 images_with_smoke += 1
-                print(f"\n📷 {img_name}")
+                print(f"\n {img_name}")
                 print(f"   Smoke regions detected: {num_detections}")
                 for i, det in enumerate(detections, 1):
                     conf = det['confidence'] * 100
@@ -251,7 +251,7 @@ def main():
     detector = SmokeDetector(model_path=args.model, conf_threshold=args.conf)
 
     if detector.model is None:
-        print("\n❌ Cannot proceed without a model. Please provide --model argument.")
+        print("\n Cannot proceed without a model. Please provide --model argument.")
         print(f"   Example: python inference.py --model models/best.pt --image path/to/image.jpg")
         return
 
@@ -260,7 +260,7 @@ def main():
 
     # Run inference
     if os.path.isdir(args.image):
-        print(f"\n📁 Processing directory: {args.image}")
+        print(f"\n Processing directory: {args.image}")
         results = detector.predict_batch(
             args.image,
             visualize=True,
@@ -268,12 +268,12 @@ def main():
         )
         detector.print_detections(results)
     else:
-        print(f"\n🖼️  Processing single image: {args.image}")
+        print(f"\n  Processing single image: {args.image}")
         results, annotated = detector.predict_single_image(args.image, visualize=True)
 
         if results and annotated is not None:
             detections = detector._extract_detections(results[0])
-            print(f"\n✅ Detections: {len(detections)}")
+            print(f"\n Detections: {len(detections)}")
             for i, det in enumerate(detections, 1):
                 print(f"   [{i}] Smoke - Confidence: {det['confidence']*100:.1f}%")
 

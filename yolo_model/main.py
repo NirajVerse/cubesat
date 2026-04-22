@@ -117,13 +117,13 @@ Examples:
         detector = SmokeDetector(model_path=args.model, conf_threshold=args.conf)
 
         if detector.model is None:
-            print("❌ Failed to load model")
+            print(" Failed to load model")
             return
 
         os.makedirs(INFERENCE_RESULTS_DIR, exist_ok=True)
 
         if os.path.isdir(args.image):
-            print(f"\n📁 Processing directory: {args.image}")
+            print(f"\n Processing directory: {args.image}")
             results = detector.predict_batch(
                 args.image,
                 visualize=True,
@@ -131,12 +131,12 @@ Examples:
             )
             detector.print_detections(results)
         else:
-            print(f"\n🖼️  Processing image: {args.image}")
+            print(f"\n  Processing image: {args.image}")
             results, annotated = detector.predict_single_image(args.image, visualize=True)
 
             if results and annotated is not None:
                 detections = detector._extract_detections(results[0])
-                print(f"\n✅ Detections: {len(detections)}")
+                print(f"\n Detections: {len(detections)}")
                 for i, det in enumerate(detections, 1):
                     conf = det['confidence'] * 100
                     print(f"   [{i}] Smoke - Confidence: {conf:.1f}%")

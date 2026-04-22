@@ -4,14 +4,14 @@ Complete workflow from data preparation to inference
 """
 
 # ============================================================================
-# 📚 WHAT YOU NEED FOR YOLO TRAINING (Q&A)
+#  WHAT YOU NEED FOR YOLO TRAINING (Q&A)
 # ============================================================================
 
 ## Q: Do I need images with bounding boxes drawn on them?
 ## A: NO! You need:
-##    ✅ Images (PNG/JPG) - in YOLODataset/images/
-##    ✅ Annotations (TXT files) - in YOLODataset/labels/
-##    ❌ NOT images with boxes already drawn
+##     Images (PNG/JPG) - in YOLODataset/images/
+##     Annotations (TXT files) - in YOLODataset/labels/
+##     NOT images with boxes already drawn
 ##
 ## Your YOLO label files are in format:
 ##   class_id center_x center_y width height (all normalized 0-1)
@@ -24,11 +24,11 @@ Complete workflow from data preparation to inference
 ##
 
 # ============================================================================
-# 🚀 COMPLETE WORKFLOW
+#  COMPLETE WORKFLOW
 # ============================================================================
 
 STEP 1: INSTALL DEPENDENCIES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 cd yolo_model
 pip install -r requirements.txt
@@ -38,7 +38,7 @@ Installing: ultralytics, torch, opencv, numpy
 
 
 STEP 2: PREPARE DATASET (Train/Val/Test Split)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 python main.py prepare-dataset
 
@@ -46,9 +46,9 @@ Or with custom split:
 python main.py prepare-dataset --train 0.7 --val 0.2
 
 This will:
-  ✅ Create train/val/test folders
-  ✅ Copy images and labels to respective folders
-  ✅ Organize data for training
+   Create train/val/test folders
+   Copy images and labels to respective folders
+   Organize data for training
 
 Results:
   YOLODataset/images/train/     (70% - ~835 images)
@@ -60,18 +60,18 @@ Results:
 
 
 STEP 3: TRAIN YOLO MODEL
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 python main.py train
 
-⏱️  Estimated time: 30-60 minutes (on GPU)
+  Estimated time: 30-60 minutes (on GPU)
     If using CPU: 2-4 hours
 
 The script will:
-  ✅ Download YOLOv11 nano model (~2.5 MB)
-  ✅ Train for 100 epochs
-  ✅ Save best model to: models/best.pt
-  ✅ Generate training plots and metrics
+   Download YOLOv11 nano model (~2.5 MB)
+   Train for 100 epochs
+   Save best model to: models/best.pt
+   Generate training plots and metrics
 
 Output files:
   models/smoke_detection_YYYYMMDD_HHMMSS/weights/best.pt  (actual weights)
@@ -79,7 +79,7 @@ Output files:
 
 
 STEP 4: RUN INFERENCE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 On a single image:
   python main.py infer \
@@ -94,47 +94,47 @@ On multiple images (directory):
     --save
 
 Results:
-  ✅ inference_results/pred_image.jpg (annotated with boxes)
-  ✅ Console output with detections
+   inference_results/pred_image.jpg (annotated with boxes)
+   Console output with detections
 
 
 # ============================================================================
-# 📊 STRUCTURE COMPARISON
+#  STRUCTURE COMPARISON
 # ============================================================================
 
 YOUR CLASSIFICATION PIPELINE vs YOLO PIPELINE
 
 Classification (Already trained):
-  Input: Image → Model → Output: "Fire" or "No Fire"
+  Input: Image  Model  Output: "Fire" or "No Fire"
   Use case: Binary classification
 
 YOLO (New pipeline):
-  Input: Image → Model → Output: Bounding boxes with confidence
+  Input: Image  Model  Output: Bounding boxes with confidence
   Use case: Localization + detection
 
 
 # ============================================================================
-# 📂 FILE STRUCTURE
+#  FILE STRUCTURE
 # ============================================================================
 
 yolo_model/
-├── config/
-│   └── yolo_config.py         ← Settings (model size, thresholds, etc)
-├── scripts/
-│   ├── train.py               ← Train the model
-│   ├── inference.py           ← Run predictions
-│   └── prepare_dataset.py     ← Prepare data splits
-├── models/                    ← Trained weights (created after training)
-│   └── best.pt                ← Best model (use for inference)
-├── inference_results/         ← Output images with boxes
-│   └── pred_image1.jpg        ← Annotated prediction
-├── main.py                    ← Easy entry point
-├── README.md                  ← Full documentation
-└── requirements.txt           ← Dependencies
+ config/
+    yolo_config.py          Settings (model size, thresholds, etc)
+ scripts/
+    train.py                Train the model
+    inference.py            Run predictions
+    prepare_dataset.py      Prepare data splits
+ models/                     Trained weights (created after training)
+    best.pt                 Best model (use for inference)
+ inference_results/          Output images with boxes
+    pred_image1.jpg         Annotated prediction
+ main.py                     Easy entry point
+ README.md                   Full documentation
+ requirements.txt            Dependencies
 
 
 # ============================================================================
-# 🎯 INFERENCE EXAMPLES
+#  INFERENCE EXAMPLES
 # ============================================================================
 
 Example 1: Single image
@@ -164,7 +164,7 @@ python main.py infer \
 
 
 # ============================================================================
-# 🔧 CONFIGURATION
+#  CONFIGURATION
 # ============================================================================
 
 Edit config/yolo_config.py to customize:
@@ -182,24 +182,24 @@ INFERENCE_CONF = 0.5            # Confidence threshold
 
 
 # ============================================================================
-# ✅ EXPECTED OUTPUTS
+#  EXPECTED OUTPUTS
 # ============================================================================
 
 After training:
-  ✅ models/best.pt (~5-7 MB)
-  ✅ Training plots and metrics
+   models/best.pt (~5-7 MB)
+   Training plots and metrics
 
 After inference:
-  ✅ inference_results/pred_*.jpg (with bounding boxes)
-  ✅ Console output:
-     📷 image.jpg
+   inference_results/pred_*.jpg (with bounding boxes)
+   Console output:
+      image.jpg
         Smoke regions detected: 2
         [1] Confidence: 85.3%
         [2] Confidence: 72.1%
 
 
 # ============================================================================
-# ❓ FAQ
+#  FAQ
 # ============================================================================
 
 Q: Where do I put my own images to test?
@@ -228,7 +228,7 @@ A: Yes, but slower. Set DEVICE='cpu' in config.
 
 
 # ============================================================================
-# 📞 NEXT STEPS
+#  NEXT STEPS
 # ============================================================================
 
 1. Install dependencies:     pip install -r requirements.txt
@@ -237,7 +237,7 @@ A: Yes, but slower. Set DEVICE='cpu' in config.
 4. Run inference:            python main.py infer --image <path> --model models/best.pt
 5. Check results:            See inference_results/ folder
 
-All done! 🎉
+All done! 
 """
 
 # This file is documentation. No Python code to execute.

@@ -25,15 +25,15 @@ def split_dataset(images_dir, labels_dir, train_ratio=0.7, val_ratio=0.2, test_r
         test_ratio: Proportion for testing (default 0.1)
     """
     print("="*60)
-    print("📊 DATASET SPLITTING PIPELINE")
+    print(" DATASET SPLITTING PIPELINE")
     print("="*60)
 
     # Verify ratios sum to 1
     if not abs((train_ratio + val_ratio + test_ratio) - 1.0) < 0.001:
-        print("❌ Ratios must sum to 1.0")
+        print(" Ratios must sum to 1.0")
         return
 
-    print(f"\n📈 Split Ratios:")
+    print(f"\n Split Ratios:")
     print(f"   Train: {train_ratio*100:.0f}%")
     print(f"   Val: {val_ratio*100:.0f}%")
     print(f"   Test: {test_ratio*100:.0f}%")
@@ -44,10 +44,10 @@ def split_dataset(images_dir, labels_dir, train_ratio=0.7, val_ratio=0.2, test_r
                   if f.lower().endswith(image_extensions)]
 
     if not image_files:
-        print(f"\n❌ No images found in {images_dir}")
+        print(f"\n No images found in {images_dir}")
         return
 
-    print(f"\n🔍 Found {len(image_files)} images")
+    print(f"\n Found {len(image_files)} images")
 
     # Shuffle and split
     random.shuffle(image_files)
@@ -64,7 +64,7 @@ def split_dataset(images_dir, labels_dir, train_ratio=0.7, val_ratio=0.2, test_r
     print(f"   Test: {len(test_files)} images")
 
     # Create directories
-    print("\n📁 Creating directories...")
+    print("\n Creating directories...")
     splits = {
         'train': train_files,
         'val': val_files,
@@ -80,10 +80,10 @@ def split_dataset(images_dir, labels_dir, train_ratio=0.7, val_ratio=0.2, test_r
         lbl_split_dir = os.path.join(labels_dir, split)
         os.makedirs(lbl_split_dir, exist_ok=True)
 
-        print(f"   ✅ Created {split} directories")
+        print(f"    Created {split} directories")
 
         # Copy files
-        print(f"   📋 Copying {split} files...")
+        print(f"    Copying {split} files...")
         for i, img_file in enumerate(files, 1):
             # Get corresponding label file
             label_file = os.path.splitext(img_file)[0] + '.txt'
@@ -102,10 +102,10 @@ def split_dataset(images_dir, labels_dir, train_ratio=0.7, val_ratio=0.2, test_r
             if i % 100 == 0:
                 print(f"      [{i}/{len(files)}] copied")
 
-        print(f"   ✅ Copied all {split} files")
+        print(f"    Copied all {split} files")
 
     print("\n" + "="*60)
-    print("✅ Dataset split completed!")
+    print(" Dataset split completed!")
     print("="*60)
     print("\nDataset is ready for training!")
 

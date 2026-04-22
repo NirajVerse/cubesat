@@ -35,7 +35,7 @@ def example_single_image():
 
     if results:
         detections = detector._extract_detections(results[0])
-        print(f"\n✅ Found {len(detections)} smoke region(s)")
+        print(f"\n Found {len(detections)} smoke region(s)")
 
         for i, det in enumerate(detections, 1):
             print(f"   [{i}] Confidence: {det['confidence']*100:.1f}%")
@@ -101,7 +101,7 @@ def example_custom_inference():
         for det in high_confidence_detections:
             bbox = det['bbox']
             area = (bbox['x2'] - bbox['x1']) * (bbox['y2'] - bbox['y1'])
-            print(f"  Confidence: {det['confidence']*100:.1f}%, Area: {area:.0f} px²")
+            print(f"  Confidence: {det['confidence']*100:.1f}%, Area: {area:.0f} px")
 
 
 def example_with_different_thresholds():
