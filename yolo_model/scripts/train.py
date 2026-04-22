@@ -15,6 +15,24 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'config'))
 from yolo_config import *
 
 
+def download_model(model_name):
+    """
+    Ensure YOLO model is downloaded before training
+    """
+    print(f"\n Preparing {model_name} model...")
+    print("   (If first time, will download ~2.5MB - please wait...)")
+
+    try:
+        from ultralytics import YOLO
+        model = YOLO(f'{model_name}.pt')
+        print(f"   Downloaded/loaded successfully!")
+        return model
+    except Exception as e:
+        print(f"   ERROR: Could not load model: {e}")
+        print(f"   Check internet connection and try again")
+        return None
+
+
 def check_dataset_structure():
     """
     Check if dataset has proper train/val/test split
@@ -90,7 +108,12 @@ def train_yolo(dataset_yaml_path=None):
 
     # Initialize YOLO model
     print(f"\n Loading {MODEL_NAME} model...")
-    model = YOLO(f'{MODEL_NAME}.pt')
+    print("   (First time will download ~2.5MB - this may take 1-2 minutes)")
+    model = download_model(MODEL_NAME)
+
+    if model is None:
+        print("\n Unable to download/load model. Check internet connection.")
+        return
 
     # Create run name with timestamp
     run_name = f"smoke_detection_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
