@@ -7,12 +7,12 @@ YOLO_MODELS_DIR = './models/'
 INFERENCE_RESULTS_DIR = './inference_results/'
 
 # Model Configuration
-MODEL_NAME = 'yolov8n'  # yolov11n (nano), yolov11s (small), yolov11m (medium), yolov11l (large)
+MODEL_NAME = 'yolo26n'  # yolov11n (nano), yolov11s (small), yolov11m (medium), yolov11l (large)
 DEVICE = 'cuda'  # 'cuda' or 'cpu'
 
 # Training Configuration (for future use)
 EPOCHS = 100
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 IMG_SIZE = 512
 IMGSZ = 512
 CONFIDENCE_THRESHOLD = 0.5
