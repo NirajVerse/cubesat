@@ -7,7 +7,7 @@ YOLO_MODELS_DIR = './models/'
 INFERENCE_RESULTS_DIR = './inference_results/'
 
 # Model Configuration
-MODEL_NAME = 'yolov11n'  # yolov11n (nano), yolov11s (small), yolov11m (medium), yolov11l (large)
+MODEL_NAME = 'yolov8n'  # yolov11n (nano), yolov11s (small), yolov11m (medium), yolov11l (large)
 DEVICE = 'cuda'  # 'cuda' or 'cpu'
 
 # Training Configuration (for future use)
