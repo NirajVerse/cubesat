@@ -20,15 +20,17 @@ class SmokeDetector:
     YOLO-based smoke detection and visualization
     """
 
-    def __init__(self, model_path=None, conf_threshold=INFERENCE_CONF):
+    def __init__(self, model_path=None, conf_threshold=INFERENCE_CONF, iou_threshold=INFERENCE_IOU):
         """
         Initialize the detector with a trained model
 
         Args:
             model_path: Path to trained .pt model file
             conf_threshold: Confidence threshold for detections
+            iou_threshold: IoU threshold for NMS filtering
         """
         self.conf_threshold = conf_threshold
+        self.iou_threshold = iou_threshold
         self.device = DEVICE
 
         # Load model
@@ -68,6 +70,7 @@ class SmokeDetector:
         results = self.model.predict(
             source=image_path,
             conf=self.conf_threshold,
+            iou=self.iou_threshold,
             device=self.device,
             verbose=False
         )
@@ -248,7 +251,11 @@ def main():
     args = parser.parse_args()
 
     # Initialize detector
-    detector = SmokeDetector(model_path=args.model, conf_threshold=args.conf)
+    detector = SmokeDetector(
+        model_path=args.model,
+        conf_threshold=args.conf,
+        iou_threshold=INFERENCE_IOU
+    )
 
     if detector.model is None:
         print("\n Cannot proceed without a model. Please provide --model argument.")

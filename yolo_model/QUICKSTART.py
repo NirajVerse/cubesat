@@ -141,7 +141,8 @@ Example 1: Single image
 python main.py infer \
   --image ../Example\ Data\ 1/fire_image.jpg \
   --model models/best.pt \
-  --save
+  --save  print("="*60)
+
 
 Example 2: Your test images
 python main.py infer \
