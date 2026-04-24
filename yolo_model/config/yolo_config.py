@@ -11,7 +11,7 @@ MODEL_NAME = 'yolo26n'  # yolov11n (nano), yolov11s (small), yolov11m (medium), 
 DEVICE = 'cuda'  # 'cuda' or 'cpu'
 
 # Training Configuration (for future use)
-EPOCHS = 100
+EPOCHS = 200
 BATCH_SIZE = 32
 IMG_SIZE = 512
 IMGSZ = 512
