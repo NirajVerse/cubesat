@@ -28,8 +28,8 @@ VAL_IMG_DIR = os.path.join(DATASET_PATH, 'images/val')
 TEST_IMG_DIR = os.path.join(DATASET_PATH, 'images/test')
 
 # Inference
-INFERENCE_CONF = 0.25  # Confidence threshold for predictions
-INFERENCE_IOU = 0  # NMS IOU threshold
+INFERENCE_CONF = 0.3  # Confidence threshold for predictions
+INFERENCE_IOU = 0.1  # NMS IOU threshold
 
 # Visualization
 SAVE_PREDICTIONS = True
