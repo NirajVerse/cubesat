@@ -32,6 +32,7 @@ class SmokeDetector:
         self.conf_threshold = conf_threshold
         self.iou_threshold = iou_threshold
         self.device = DEVICE
+        print(f" Inference thresholds -> conf: {self.conf_threshold}, iou: {self.iou_threshold}")
 
         # Load model
         if model_path is None:
