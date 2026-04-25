@@ -7,5 +7,10 @@ train val scripts/checkpoints/
 *.pth
 yolo_model/runs/
 yolo_model/inference_results/
-*pt
+*.pt
 *.log
+
+#python cache
+__pycache__/
+*.pyc
+*.pyo
