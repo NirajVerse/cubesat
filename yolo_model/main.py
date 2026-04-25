@@ -50,7 +50,7 @@ Examples:
 
     # Inference command
     infer_parser = subparsers.add_parser('infer', help='Run inference on images')
-    infer_parser.add_argument(o 
+    infer_parser.add_argument( 
         '--image',
         type=str,
         required=True,
