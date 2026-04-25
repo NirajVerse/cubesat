@@ -1,7 +1,0 @@
-artifact_location: /work/users/ng739/cubesat/model/cubesat/yolo_model/runs/mlflow/711357490832256732
-creation_time: 1776830701042
-experiment_id: '711357490832256732'
-last_update_time: 1776830701042
-lifecycle_stage: active
-name: ./models/
-workspace: default

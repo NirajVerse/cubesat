@@ -5,3 +5,7 @@ train val scripts/__pycache__/
 dataset_split/
 train val scripts/checkpoints/
 *.pth
+yolo_model/runs/
+yolo_model/inference_results/
+*pt
+*.log
