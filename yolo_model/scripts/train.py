@@ -1,6 +1,6 @@
 """
 YOLO Training Script
-Train YOLOv11 model for smoke detection
+Train YOLO(different version) model for smoke detection
 """
 
 import os
