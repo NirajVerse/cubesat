@@ -135,7 +135,7 @@ Examples:
             results, annotated = detector.predict_single_image(args.image, visualize=True)
 
             if results and annotated is not None:
-                detections = detector._extract_detections(results[0])
+                detections = detector.last_detections
                 print(f"\n Detections: {len(detections)}")
                 for i, det in enumerate(detections, 1):
                     conf = det['confidence'] * 100

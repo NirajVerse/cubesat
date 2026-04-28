@@ -32,6 +32,7 @@ class SmokeDetector:
         self.conf_threshold = conf_threshold
         self.iou_threshold = iou_threshold
         self.device = DEVICE
+        self.last_detections = []
         print(f" Inference thresholds -> conf: {self.conf_threshold}, iou: {self.iou_threshold}")
 
         # Load model
@@ -76,14 +77,141 @@ class SmokeDetector:
             verbose=False
         )
 
+        # Extract raw detections and merge near-touching smoke boxes.
+        detections = self._extract_detections(results[0]) if len(results) > 0 else []
+        detections = self._merge_adjacent_detections(detections)
+        self.last_detections = detections
+
         # Get annotated image
         if visualize and len(results) > 0:
-            result = results[0]
-            annotated_image = result.plot()  # YOLO's built-in plotting
+            image = cv2.imread(image_path)
+            annotated_image = self._draw_detections(image, detections) if image is not None else None
         else:
             annotated_image = None
 
         return results, annotated_image
+
+    def _draw_detections(self, image, detections):
+        """
+        Draw merged detections on image.
+
+        Args:
+            image: BGR image array
+            detections: list of detection dictionaries
+
+        Returns:
+            Annotated image
+        """
+        if image is None:
+            return None
+
+        line_width = int(LINE_WIDTH) if LINE_WIDTH else 2
+
+        for det in detections:
+            x1 = int(round(det['bbox']['x1']))
+            y1 = int(round(det['bbox']['y1']))
+            x2 = int(round(det['bbox']['x2']))
+            y2 = int(round(det['bbox']['y2']))
+            conf = det['confidence']
+
+            cv2.rectangle(image, (x1, y1), (x2, y2), BOX_COLOR, line_width)
+            label = f"smoke {conf:.2f}"
+            (text_w, text_h), baseline = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, FONT_SIZE, 2)
+            text_y1 = max(0, y1 - text_h - baseline - 4)
+            text_y2 = max(text_h + baseline + 4, y1)
+            cv2.rectangle(image, (x1, text_y1), (x1 + text_w + 6, text_y2), BOX_COLOR, -1)
+            cv2.putText(
+                image,
+                label,
+                (x1 + 3, text_y2 - baseline - 2),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                FONT_SIZE,
+                TEXT_COLOR,
+                1,
+                cv2.LINE_AA,
+            )
+
+        return image
+
+    def _boxes_should_merge(self, box_a, box_b):
+        """
+        Decide whether two smoke boxes represent one plume split into fragments.
+        """
+        ax1, ay1, ax2, ay2 = box_a['x1'], box_a['y1'], box_a['x2'], box_a['y2']
+        bx1, by1, bx2, by2 = box_b['x1'], box_b['y1'], box_b['x2'], box_b['y2']
+
+        aw = max(1e-6, ax2 - ax1)
+        ah = max(1e-6, ay2 - ay1)
+        bw = max(1e-6, bx2 - bx1)
+        bh = max(1e-6, by2 - by1)
+
+        inter_w = max(0.0, min(ax2, bx2) - max(ax1, bx1))
+        inter_h = max(0.0, min(ay2, by2) - max(ay1, by1))
+        inter = inter_w * inter_h
+
+        union = (aw * ah) + (bw * bh) - inter
+        iou = inter / union if union > 0 else 0.0
+
+        horizontal_overlap_ratio = inter_w / max(1e-6, min(aw, bw))
+        vertical_gap = max(0.0, max(ay1, by1) - min(ay2, by2))
+        avg_h = (ah + bh) / 2.0
+
+        # Merge if boxes overlap, or if they are strongly aligned and nearly touching.
+        if iou >= 0.10:
+            return True
+        if horizontal_overlap_ratio >= 0.60 and vertical_gap <= (0.20 * avg_h):
+            return True
+        return False
+
+    def _merge_adjacent_detections(self, detections):
+        """
+        Merge adjacent smoke detections that NMS can miss when boxes are touching but not overlapping.
+        """
+        if len(detections) <= 1:
+            return detections
+
+        merged = [dict(det) for det in detections]
+        changed = True
+
+        while changed:
+            changed = False
+            next_merged = []
+            used = [False] * len(merged)
+
+            for i, det_i in enumerate(merged):
+                if used[i]:
+                    continue
+
+                current = {
+                    'class': det_i['class'],
+                    'confidence': det_i['confidence'],
+                    'bbox': dict(det_i['bbox']),
+                }
+                used[i] = True
+
+                for j in range(i + 1, len(merged)):
+                    if used[j]:
+                        continue
+                    det_j = merged[j]
+                    if current['class'] != det_j['class']:
+                        continue
+                    if not self._boxes_should_merge(current['bbox'], det_j['bbox']):
+                        continue
+
+                    current['bbox']['x1'] = min(current['bbox']['x1'], det_j['bbox']['x1'])
+                    current['bbox']['y1'] = min(current['bbox']['y1'], det_j['bbox']['y1'])
+                    current['bbox']['x2'] = max(current['bbox']['x2'], det_j['bbox']['x2'])
+                    current['bbox']['y2'] = max(current['bbox']['y2'], det_j['bbox']['y2'])
+                    current['confidence'] = max(current['confidence'], det_j['confidence'])
+                    used[j] = True
+                    changed = True
+
+                next_merged.append(current)
+
+            merged = next_merged
+
+        merged.sort(key=lambda d: d['confidence'], reverse=True)
+        return merged
 
     def predict_batch(self, image_dir, visualize=True, save_results=False):
         """
@@ -129,7 +257,7 @@ class SmokeDetector:
                     'path': img_path,
                     'results': results[0],
                     'annotated_image': annotated_img,
-                    'detections': self._extract_detections(results[0])
+                    'detections': self.last_detections
                 }
 
                 # Save if requested
@@ -280,7 +408,7 @@ def main():
         results, annotated = detector.predict_single_image(args.image, visualize=True)
 
         if results and annotated is not None:
-            detections = detector._extract_detections(results[0])
+            detections = detector.last_detections
             print(f"\n Detections: {len(detections)}")
             for i, det in enumerate(detections, 1):
                 print(f"   [{i}] Smoke - Confidence: {det['confidence']*100:.1f}%")
