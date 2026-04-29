@@ -39,5 +39,5 @@ LINE_WIDTH = 2
 FONT_SIZE = 0.5
 
 # Color for bounding boxes (BGR format for OpenCV)
-BOX_COLOR = (0, 255, 0)  # Green
+BOX_COLOR = (255, 0, 0)  # Green
 TEXT_COLOR = (255, 255, 255)  # White
