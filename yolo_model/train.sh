@@ -4,7 +4,7 @@
 #SBATCH --error=training_error_%j.log   # Standard error log
 #SBATCH --nodes=1                       # Run on a single node
 #SBATCH --ntasks=1                      # Run a single task
-#SBATCH --cpus-per-task=4               # Number of CPU cores for data loading
+#SBATCH --cpus-per-task=8               # Number of CPU cores for data loading
 #SBATCH --mem=32G                       # Amount of RAM requested
 #SBATCH --gres=gpu:mi210:1              # Request exactly 1 AMD MI210 GPU
 #SBATCH --time=24:00:00                 # Maximum time limit (HH:MM:SS)
