@@ -9,9 +9,8 @@ yolo_model/runs/
 yolo_model/inference_results/
 *.pt
 *.log
-/home/niraj-gupta/Documents/hpc/cubesat/results
-/home/niraj-gupta/Documents/hpc/cubesat/download_muscadine.sh
-
+results/
+download_muscadine.sh
 #python cache
 __pycache__/
 *.pyc
