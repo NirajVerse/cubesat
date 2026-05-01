@@ -1,0 +1,14 @@
+artifact_uri: /work/users/ng739/cubesat/model/cubesat/yolo_model/runs/mlflow/711357490832256732/f3eead6730ca4f74b69beeeba12446ce/artifacts
+end_time: 1777662905030
+entry_point_name: ''
+experiment_id: '711357490832256732'
+lifecycle_stage: active
+run_id: f3eead6730ca4f74b69beeeba12446ce
+run_name: smoke_detection_20260501_140615
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777662417371
+status: 3
+tags: []
+user_id: ng739
