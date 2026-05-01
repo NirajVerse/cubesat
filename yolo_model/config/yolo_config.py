@@ -17,6 +17,11 @@ IMGSZ = 512
 CONFIDENCE_THRESHOLD = 0.5
 IOU_THRESHOLD = 0.45
 
+# MLOps Configuration
+USE_MLFLOW = True
+MLFLOW_TRACKING_URI = "http://localhost:5000"  # or 'file:./mlruns'
+MLFLOW_EXPERIMENT_NAME = "YOLO_Smoke_Detection"
+
 # Training augmentation
 AUGMENT = True
 MOSAIC = 1.0

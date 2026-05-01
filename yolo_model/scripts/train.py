@@ -133,6 +133,19 @@ def train_yolo(dataset_yaml_path=None):
     print(f"\n Starting training...")
     print(f"   Run name: {run_name}")
 
+    if USE_MLFLOW:
+        try:
+            import mlflow
+            # Initialize MLflow experiment
+            mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+            mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
+            print(f"   MLflow tracking enabled: Experiment '{MLFLOW_EXPERIMENT_NAME}' at {MLFLOW_TRACKING_URI}")
+            
+            # Optionally start an MLflow run explicitly to log additional parameters
+            # Ultralytics will auto-log its own metrics as nested runs or under this active run
+        except ImportError:
+            print("   Warning: MLflow is not installed. Run 'pip install mlflow' to enable tracking.")
+
     results = model.train(
         data=dataset_yaml_path,
         epochs=EPOCHS,
