@@ -4,7 +4,7 @@ import os
 # Paths
 DATASET_PATH = '../YOLODataset'
 YOLO_MODELS_DIR = './models/'
-INFERENCE_RESULTS_DIR = './inference_results/'
+INFERENCE_RESULTS_DIR = './inference_folder/'
 
 # Model Configuration
 MODEL_NAME = 'yolo26n'  # yolov11n (nano), yolov11s (small), yolov11m (medium), yolov11l (large)
