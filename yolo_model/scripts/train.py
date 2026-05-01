@@ -126,6 +126,8 @@ def train_yolo(dataset_yaml_path=None):
     print(f"   Epochs: {EPOCHS}")
     print(f"   Device: {DEVICE}")
     print(f"   Confidence Threshold: {INFERENCE_CONF}")
+    print(f"   Augment: {AUGMENT}")
+    print(f"   Mosaic: {MOSAIC}, Mixup: {MIXUP}, Copy-paste: {COPY_PASTE}")
 
     # Start training
     print(f"\n Starting training...")
@@ -145,7 +147,18 @@ def train_yolo(dataset_yaml_path=None):
         verbose=True,
         conf=INFERENCE_CONF,
         iou=IOU_THRESHOLD,
-        augment = True
+        augment=AUGMENT,
+        mosaic=MOSAIC,
+        mixup=MIXUP,
+        copy_paste=COPY_PASTE,
+        fliplr=FLIP_LR,
+        flipud=FLIP_UD,
+        degrees=DEGREES,
+        translate=TRANSLATE,
+        scale=SCALE,
+        hsv_h=HSV_H,
+        hsv_s=HSV_S,
+        hsv_v=HSV_V,
     )
 
     # Save best model with custom name
