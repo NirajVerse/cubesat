@@ -8,6 +8,7 @@ train val scripts/checkpoints/
 yolo_model/runs/
 yolo_model/inference_results/
 yolo_model/inference_folder/
+yolo_model/training_log/
 *.pt
 *.log
 results/

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=yolo_cubesat         # Name of your job
-#SBATCH --output=training_output_%j.log # Standard output log
-#SBATCH --error=training_error_%j.log   # Standard error log
+#SBATCH --output=training_log/training_output_%j.log # Standard output log
+#SBATCH --error=training_log/training_error_%j.log   # Standard error log
 #SBATCH --nodes=1                       # Run on a single node
 #SBATCH --ntasks=1                      # Run a single task
 #SBATCH --cpus-per-task=8               # Number of CPU cores for data loading
