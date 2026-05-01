@@ -145,6 +145,7 @@ def train_yolo(dataset_yaml_path=None):
         verbose=True,
         conf=INFERENCE_CONF,
         iou=IOU_THRESHOLD,
+        augment = True
     )
 
     # Save best model with custom name
